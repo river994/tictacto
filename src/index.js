@@ -4,28 +4,41 @@ import './index.css';
 
 class Square extends React.Component {
   // 3. constructor 생성자 추가 - > state 초기화
-  constructor(props){
-    super(props);
-    this.state = {
-      value : null,
-    };
-  }
+  // constructor(props){
+  //   super(props);
+  //   this.state = {
+  //     value : null,
+  //   };
+  // }
 
   render() {
     return (
       <button 
         className="square" 
-        onClick={() => this.setState({value: 'X'})}
+        onClick={() => this.props.onClick()}
       >
-        {this.state.value}
+        {this.props.value}
       </button> // 2. props.value 값 표시 -> prop을 state로 변경
     );
   }
 }
 
 class Board extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      squares : Array(9).fill(null),
+    };
+  }
+
+  handleClick(i){
+    const squares = this.state.squares.slice();
+    squares[i] = 'X';
+    this.setState({squares : squares});
+  }
+
   renderSquare(i) {
-    return <Square value={i}/>; // 1. square에 value prop 전달
+    return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)}/>; // 1. square에 value prop 전달
   }
 
   render() {
